@@ -1,1 +1,1 @@
-# Tomb-Of-Mask-Prototype
+# Tomb-of-the-Mask-Prototype
