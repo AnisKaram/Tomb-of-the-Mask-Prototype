@@ -50,28 +50,28 @@ public class SwipeDetectorManager : MonoBehaviour
             Vector2 direction2D = (touchPosition - m_touchStartPosition).normalized;
 
             // Dot product
-            if (m_swipeDirection != SwipeDirections.Right && Vector2.Dot(Vector2.right, direction2D) > m_swipeThreshold) // Swipe right.
+            if (/*m_swipeDirection != SwipeDirections.Right && */Vector2.Dot(Vector2.right, direction2D) > m_swipeThreshold) // Swipe right.
             {
                 Debug.Log($"RIGHT");
                 m_swipeDirection = SwipeDirections.Right;
                 InvokeSwipeEvent(m_swipeDirection);
-                return;
+                //return;
             }
-            if (m_swipeDirection != SwipeDirections.Left && Vector2.Dot(Vector2.left, direction2D) > m_swipeThreshold) // Swipe left.
+            else if (/*m_swipeDirection != SwipeDirections.Left && */Vector2.Dot(Vector2.left, direction2D) > m_swipeThreshold) // Swipe left.
             {
                 Debug.Log($"LEFT");
                 m_swipeDirection = SwipeDirections.Left;
                 InvokeSwipeEvent(m_swipeDirection);
-                return;
+                //return;
             }
-            if (m_swipeDirection != SwipeDirections.Up && Vector2.Dot(Vector2.up, direction2D) > m_swipeThreshold) // Swipe up.
+            else if (/*m_swipeDirection != SwipeDirections.Up && */Vector2.Dot(Vector2.up, direction2D) > m_swipeThreshold) // Swipe up.
             {
                 Debug.Log($"UP");
                 m_swipeDirection = SwipeDirections.Up;
                 InvokeSwipeEvent(m_swipeDirection);
-                return;
+                //return;
             }
-            if (m_swipeDirection != SwipeDirections.Down && Vector2.Dot(Vector2.down, direction2D) > m_swipeThreshold) // Swipe down.
+            else if (/*m_swipeDirection != SwipeDirections.Down && */ Vector2.Dot(Vector2.down, direction2D) > m_swipeThreshold) // Swipe down.
             {
                 Debug.Log($"DOWN");
                 m_swipeDirection = SwipeDirections.Down;
