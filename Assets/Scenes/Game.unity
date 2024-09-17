@@ -375,6 +375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_isTouchStarted: 0
+  text: {fileID: 0}
 --- !u!4 &878959723
 Transform:
   m_ObjectHideFlags: 0
@@ -566,7 +567,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &1482157924
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -691,13 +692,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 623f592a55b8242d284ac7121d085efb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canDash: 0
+  isDashing: 0
   m_dashDirection: {x: 0, y: 0, z: 0}
+  m_castDirection: {x: 0, y: 0}
   m_swipeDirection: 0
-  m_thurst: 0.05
-  m_groundMask:
-    serializedVersion: 2
-    m_Bits: 1024
 --- !u!1 &1917110860
 GameObject:
   m_ObjectHideFlags: 0
