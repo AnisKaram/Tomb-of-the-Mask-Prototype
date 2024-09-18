@@ -1,23 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    #region Fields
+    private StateMachine m_stateMachine;
+
     private Rigidbody2D m_rigidbody2D;
     private BoxCollider2D m_boxCollider2D;
 
-    public bool isDashing;
+    private bool m_isDashing;
 
-    public Vector3 m_dashDirection;
-    public Vector2 m_castDirection;
-    public SwipeDirections m_swipeDirection;
+    private Vector3 m_dashDirection;
+    private Vector2 m_castDirection;
+    private SwipeDirections m_swipeDirection;
     private float m_thrust = 0.2f;
 
     private int m_groundMask;
+    #endregion
 
+
+    #region Properties
+    public StateMachine stateMachine => m_stateMachine;
+    public bool isDashing => m_isDashing;
+    #endregion
+
+
+    #region Unity Methods
     private void Awake()
     {
+        m_stateMachine = new StateMachine(this);
+
         m_rigidbody2D = GetComponent<Rigidbody2D>();
         m_boxCollider2D = GetComponent<BoxCollider2D>();
 
@@ -27,34 +39,30 @@ public class PlayerController : MonoBehaviour
 
         SwipeDetectorManager.SwipeDetected += OnSwipeDetected;
     }
+    private void Start()
+    {
+        m_stateMachine.Initialize(m_stateMachine.idleState);
+    }
+    private void Update()
+    {
+        m_stateMachine.Update(); // Update the current state.
+    }
+    private void FixedUpdate()
+    {
+        if (m_isDashing)
+        {
+            DashPlayer();
+            if (IsPlayerIdle()) { m_isDashing = false; }
+        }
+    }
     private void OnDestroy()
     {
         SwipeDetectorManager.SwipeDetected -= OnSwipeDetected;
     }
-    // TODO Delete after done testing
-    private void Update()
-    {
-        if (isDashing) { return; }
+    #endregion
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            OnSwipeDetected(SwipeDirections.left, Vector2.left);
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            OnSwipeDetected(SwipeDirections.right, Vector2.right);
-        }
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            OnSwipeDetected(SwipeDirections.up, Vector2.up);
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            OnSwipeDetected(SwipeDirections.down, Vector2.down);
-        }
-    }
-
+    #region Private Methods
     private void OnSwipeDetected(SwipeDirections swipeDirection, Vector2 direction)
     {
         if (swipeDirection == m_swipeDirection) { return; } // avoid same swipe direction
@@ -82,20 +90,7 @@ public class PlayerController : MonoBehaviour
             m_thrust = -0.2f;
         }
 
-        isDashing = true;
-    }
-
-    // -----
-    // TODO Move the code to the states and StateMachine
-    // -----
-
-    private void FixedUpdate()
-    {
-        if (isDashing)
-        {
-            DashPlayer();
-            if (IsPlayerIdle()) { isDashing = false; }
-        }
+        m_isDashing = true;
     }
 
     private void DashPlayer()
@@ -105,13 +100,13 @@ public class PlayerController : MonoBehaviour
 
     private bool IsPlayerIdle()
     {
-        bool idle = Physics2D.BoxCast(
+        return Physics2D.BoxCast(
             origin: m_boxCollider2D.bounds.center,
             size: m_boxCollider2D.bounds.size,
             angle: 0f,
             direction: m_castDirection,
             distance: m_boxCollider2D.bounds.extents.x,
             layerMask: m_groundMask);
-        return idle;
     }
+    #endregion
 }

@@ -1,5 +1,4 @@
-using UnityEngine.Events;
-
+[System.Serializable]
 public class StateMachine
 {
     #region Fields
@@ -17,11 +16,6 @@ public class StateMachine
     #endregion
 
 
-    #region Events
-    public event UnityAction<IState> StateChanged;
-    #endregion
-
-
     #region Constructor
     public StateMachine(PlayerController playerController)
     {
@@ -35,14 +29,11 @@ public class StateMachine
     /// <summary>
     /// Initialize the state
     /// </summary>
-    /// <param name="state">State to enter</param>
-    public void Initialize(IState state)
+    /// <param name="startingState">State to enter</param>
+    public void Initialize(IState startingState)
     {
-        m_currentState = state;
+        m_currentState = startingState;
         m_currentState.Enter();
-
-        // Notify other objects state has changed
-        StateChanged?.Invoke(m_currentState);
     }
 
     /// <summary>
@@ -55,9 +46,6 @@ public class StateMachine
 
         m_currentState = nextState;
         m_currentState.Enter();
-
-        // Notify other objects state has changed
-        StateChanged.Invoke(m_currentState);
     }
 
     /// <summary>

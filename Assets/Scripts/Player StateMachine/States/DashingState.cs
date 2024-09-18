@@ -23,6 +23,9 @@ public class DashingState : IState
 
     public void Update()
     {
-
+        if (!m_playerController.isDashing)
+        {
+            m_playerController.stateMachine.TransitionTo(m_playerController.stateMachine.idleState);
+        }
     }
 }
