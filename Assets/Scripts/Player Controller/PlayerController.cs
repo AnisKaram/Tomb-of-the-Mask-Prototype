@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 m_castDirection;
     private SwipeDirections m_swipeDirection;
     private float m_thrust = 0.2f;
+    private float m_rotationAngle = 0;
 
     private int m_groundMask;
     #endregion
@@ -23,7 +24,8 @@ public class PlayerController : MonoBehaviour
     public StateMachine stateMachine => m_stateMachine;
     public bool isDashing => m_isDashing;
     #endregion
-
+    public bool canRotate;
+    public float rotation;
 
     #region Unity Methods
     private void Awake()
@@ -51,8 +53,22 @@ public class PlayerController : MonoBehaviour
     {
         if (m_isDashing)
         {
-            DashPlayer();
+            DashCharacter();
             if (IsPlayerIdle()) { m_isDashing = false; }
+        }
+
+        // Testing rotation
+        if (canRotate)
+        {
+            //m_rigidbody2D.MoveRotation(90);
+            rotation += 10f;
+            m_rigidbody2D.SetRotation(rotation);
+            if (rotation >= 90f) { canRotate = false; }
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            transform.eulerAngles = new Vector3(0, 0, 90);
         }
     }
     private void OnDestroy()
@@ -66,36 +82,32 @@ public class PlayerController : MonoBehaviour
     private void OnSwipeDetected(SwipeDirections swipeDirection, Vector2 direction)
     {
         if (swipeDirection == m_swipeDirection) { return; } // avoid same swipe direction
-        
+
         m_castDirection = direction;
         m_swipeDirection = swipeDirection;
 
+        // Player rotation
+        if (swipeDirection == SwipeDirections.left) { m_rotationAngle = -90; }
+        else if (swipeDirection == SwipeDirections.right) { m_rotationAngle = 90; }
+        else if (swipeDirection == SwipeDirections.up) { m_rotationAngle = 180; }
+        else if (swipeDirection == SwipeDirections.down) { m_rotationAngle = 0; }
+        RotateCharacter();
+
         // Dash direction
-        if (swipeDirection == SwipeDirections.left || swipeDirection == SwipeDirections.right)
-        {
-            m_dashDirection = transform.right;
-        }
-        else if (swipeDirection == SwipeDirections.up || swipeDirection == SwipeDirections.down)
-        {
-            m_dashDirection = transform.up;
-        }
-
-        // Thrust
-        if (swipeDirection == SwipeDirections.up || swipeDirection == SwipeDirections.right)
-        {
-            m_thrust = 0.2f;
-        }
-        else if (swipeDirection == SwipeDirections.down || swipeDirection == SwipeDirections.left)
-        {
-            m_thrust = -0.2f;
-        }
-
+        if (swipeDirection == SwipeDirections.left) { m_dashDirection = Vector3.left; }
+        else if (swipeDirection == SwipeDirections.right) { m_dashDirection = Vector3.right; }
+        else if (swipeDirection == SwipeDirections.up) { m_dashDirection = Vector3.up; }
+        else if (swipeDirection == SwipeDirections.down) { m_dashDirection = Vector3.down; }
         m_isDashing = true;
     }
 
-    private void DashPlayer()
+    private void DashCharacter()
     {
         m_rigidbody2D.AddForce(m_dashDirection * m_thrust, ForceMode2D.Force);
+    }
+    private void RotateCharacter()
+    {
+        m_rigidbody2D.SetRotation(m_rotationAngle);
     }
 
     private bool IsPlayerIdle()
