@@ -13,12 +13,12 @@ public class DashingState : IState
 
     public void Enter()
     {
-        Debug.Log($"Entering dashing state");
+        //Debug.Log($"Entering dashing state");
     }
 
     public void Exit()
     {
-        Debug.Log($"Exiting dashing state");
+        //Debug.Log($"Exiting dashing state");
     }
 
     public void Update()

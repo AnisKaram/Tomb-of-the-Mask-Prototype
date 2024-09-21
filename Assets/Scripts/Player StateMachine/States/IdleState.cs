@@ -13,12 +13,12 @@ public class IdleState : IState
 
     public void Enter()
     {
-        Debug.Log($"Entering idle state");
+        //Debug.Log($"Entering idle state");
     }
 
     public void Exit()
     {
-        Debug.Log($"Exiting idle state");
+        //Debug.Log($"Exiting idle state");
     }
 
     public void Update()

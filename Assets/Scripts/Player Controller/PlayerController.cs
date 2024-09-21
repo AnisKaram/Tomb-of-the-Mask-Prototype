@@ -17,6 +17,10 @@ public class PlayerController : MonoBehaviour
     private float m_rotationAngle = 0;
 
     private int m_groundMask;
+
+    // Added according to the swipe direction enum order.
+    private float[] m_swipeAngles = new float[] { -90f, 90f, 180f, 0f };
+    private Vector3[] m_dashDirections = new Vector3[] { Vector3.left, Vector3.right, Vector3.up, Vector3.down };
     #endregion
 
 
@@ -24,8 +28,7 @@ public class PlayerController : MonoBehaviour
     public StateMachine stateMachine => m_stateMachine;
     public bool isDashing => m_isDashing;
     #endregion
-    public bool canRotate;
-    public float rotation;
+
 
     #region Unity Methods
     private void Awake()
@@ -56,20 +59,6 @@ public class PlayerController : MonoBehaviour
             DashCharacter();
             if (IsPlayerIdle()) { m_isDashing = false; }
         }
-
-        // Testing rotation
-        if (canRotate)
-        {
-            //m_rigidbody2D.MoveRotation(90);
-            rotation += 10f;
-            m_rigidbody2D.SetRotation(rotation);
-            if (rotation >= 90f) { canRotate = false; }
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            transform.eulerAngles = new Vector3(0, 0, 90);
-        }
     }
     private void OnDestroy()
     {
@@ -87,17 +76,11 @@ public class PlayerController : MonoBehaviour
         m_swipeDirection = swipeDirection;
 
         // Player rotation
-        if (swipeDirection == SwipeDirections.left) { m_rotationAngle = -90; }
-        else if (swipeDirection == SwipeDirections.right) { m_rotationAngle = 90; }
-        else if (swipeDirection == SwipeDirections.up) { m_rotationAngle = 180; }
-        else if (swipeDirection == SwipeDirections.down) { m_rotationAngle = 0; }
+        m_rotationAngle = m_swipeAngles[(int)swipeDirection];
         RotateCharacter();
 
         // Dash direction
-        if (swipeDirection == SwipeDirections.left) { m_dashDirection = Vector3.left; }
-        else if (swipeDirection == SwipeDirections.right) { m_dashDirection = Vector3.right; }
-        else if (swipeDirection == SwipeDirections.up) { m_dashDirection = Vector3.up; }
-        else if (swipeDirection == SwipeDirections.down) { m_dashDirection = Vector3.down; }
+        m_dashDirection = m_dashDirections[(int)swipeDirection];
         m_isDashing = true;
     }
 
