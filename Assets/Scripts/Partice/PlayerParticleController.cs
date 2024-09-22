@@ -7,14 +7,19 @@ public class PlayerParticleController : MonoBehaviour
     public ParticleSystem m_groundParticle;
     private float[] m_groundParticleAngles = new float[] { 180, 0, 90, -90 };
 
-    public void ChangeParticleRotation(int swipeDirectionIndex, Vector3 playerPosition)
+    public ParticleSystem GetGroundParticle()
+    {
+        ParticleSystem groundEffectInstance = Instantiate(m_groundParticle);
+        return groundEffectInstance;
+    }
+    public void ChangeParticleRotation(ParticleSystem particleInstance, int swipeDirectionIndex, Vector3 playerPosition)
     {
         Vector3 particleRotation = new Vector3(m_groundParticleAngles[swipeDirectionIndex], -90f, -90f);
-        m_groundParticle.transform.eulerAngles = particleRotation;
-        m_groundParticle.transform.position = playerPosition;
+        particleInstance.transform.eulerAngles = particleRotation;
+        particleInstance.transform.position = playerPosition;
     }
-    public void PlayGroundParticle()
+    public void PlayGroundParticle(ParticleSystem particleInstance)
     {
-        m_groundParticle.Play();
+        particleInstance.Play();
     }
 }

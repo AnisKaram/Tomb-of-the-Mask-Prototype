@@ -18,8 +18,9 @@ public class IdleState : IState
         //Debug.Log($"Entering idle state");
         if (m_canPlayGroundEffect)
         {
-            m_playerController.playerParticleController.ChangeParticleRotation((int)m_playerController.swipeDirection, m_playerController.transform.position);
-            m_playerController.playerParticleController.PlayGroundParticle();
+            ParticleSystem groundInstance = m_playerController.playerParticleController.GetGroundParticle();
+            m_playerController.playerParticleController.ChangeParticleRotation(groundInstance, (int)m_playerController.swipeDirection, m_playerController.transform.position);
+            m_playerController.playerParticleController.PlayGroundParticle(groundInstance);
             m_canPlayGroundEffect = false;
         }
     }
