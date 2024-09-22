@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class IdleState : IState
@@ -18,9 +16,11 @@ public class IdleState : IState
         //Debug.Log($"Entering idle state");
         if (m_canPlayGroundEffect)
         {
-            ParticleSystem groundInstance = m_playerController.playerParticleController.GetGroundParticle();
-            m_playerController.playerParticleController.ChangeParticleRotation(groundInstance, (int)m_playerController.swipeDirection, m_playerController.transform.position);
-            m_playerController.playerParticleController.PlayGroundParticle(groundInstance);
+            if (ObjectPool.instance.GetObjectFromPool().TryGetComponent(out ParticleSystem particleSystem))
+            {
+                m_playerController.playerParticleController.ChangeParticleRotation(particleSystem, (int)m_playerController.swipeDirection, m_playerController.transform.position);
+                m_playerController.playerParticleController.PlayGroundParticle(particleSystem);
+            }
             m_canPlayGroundEffect = false;
         }
     }
