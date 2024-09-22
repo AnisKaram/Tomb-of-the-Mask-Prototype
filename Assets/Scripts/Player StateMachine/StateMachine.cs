@@ -19,7 +19,7 @@ public class StateMachine
     #region Constructor
     public StateMachine(PlayerController playerController)
     {
-        this.m_idleState = new IdleState(playerController);
+        this.m_idleState = new IdleState(playerController, false);
         this.m_dashingState = new DashingState(playerController);
     }
     #endregion

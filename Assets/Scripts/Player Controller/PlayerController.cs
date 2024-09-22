@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     #region Fields
     private StateMachine m_stateMachine;
+    private PlayerParticleController m_playerParticleController;
 
     private Rigidbody2D m_rigidbody2D;
     private BoxCollider2D m_boxCollider2D;
@@ -26,6 +27,8 @@ public class PlayerController : MonoBehaviour
 
     #region Properties
     public StateMachine stateMachine => m_stateMachine;
+    public PlayerParticleController playerParticleController => m_playerParticleController;
+    public SwipeDirections swipeDirection => m_swipeDirection;
     public bool isDashing => m_isDashing;
     #endregion
 
@@ -37,6 +40,7 @@ public class PlayerController : MonoBehaviour
 
         m_rigidbody2D = GetComponent<Rigidbody2D>();
         m_boxCollider2D = GetComponent<BoxCollider2D>();
+        m_playerParticleController = GetComponent<PlayerParticleController>();
 
         m_swipeDirection = SwipeDirections.Null;
 
