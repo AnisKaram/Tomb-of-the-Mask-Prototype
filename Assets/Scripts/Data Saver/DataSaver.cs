@@ -4,11 +4,29 @@ using System.IO;
 public class DataSaver : MonoBehaviour
 {
     #region Fields
+    private static DataSaver m_instance;
     private const string m_jsonFileName = "/playerdata.json";
+    #endregion
+
+    #region Properties
+    public static DataSaver instance => m_instance;
     #endregion
 
 
     #region Unity Methods
+    private void Awake()
+    {
+        if (m_instance == null)
+        {
+            m_instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(this);
+    }
+
 #if UNITY_EDITOR
     private void Update()
     {
@@ -31,7 +49,7 @@ public class DataSaver : MonoBehaviour
         PlayerData playerData = LoadData();
         return playerData.energy;
     }
-    public int GetStars()
+    public int GetLevelStars()
     {
         PlayerData playerData = LoadData();
         return playerData.energy;
