@@ -25,6 +25,8 @@ public class DataSaver : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(this);
+
+        InitializePlayerData();
     }
 
 #if UNITY_EDITOR

@@ -1,6 +1,6 @@
 public class CoinAmountRecorder : CollectableRecorder
 {
-    private int m_coinAmount;
+    public int m_coinAmount;
 
     public override void RecordCoin(int amount)
     {

@@ -21,4 +21,9 @@ public class GameManager : MonoBehaviour
         m_starAmountRecorder = GetComponent<StarAmountRecorder>();
         m_coinAmountRecorder = GetComponent<CoinAmountRecorder>();
     }
+
+    private void Start()
+    {
+        m_coinAmountRecorder.SetCoins(DataSaver.instance.GetCoins());
+    }
 }

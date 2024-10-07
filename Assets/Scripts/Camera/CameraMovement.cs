@@ -19,6 +19,10 @@ public class CameraMovement : MonoBehaviour
         m_mainCamera = Camera.main;
         m_playerController = GetComponent<PlayerController>();
     }
+    private void Start()
+    {
+        m_canMoveCamera = BinaryUtil.SetFlag(m_canMoveCamera, 1);
+    }
     private void Update()
     {
         CheckIfCameraCanMove();

@@ -8,5 +8,4 @@ public abstract class CollectableRecorder : MonoBehaviour
     public virtual void SetCoins(int amount) { }
 
     public virtual void RecordStar(int amount) { }
-    public virtual void SetStars(int amount) { }
 }
