@@ -79,6 +79,18 @@ public class SwipeDetectorManager : MonoBehaviour
     }
     #endregion
 
+    #region Public Methods
+    public void EnableTouch()
+    {
+        m_inputs.Enable();
+    }
+
+    public void DisableTouch()
+    {
+        m_inputs.Disable();
+    }
+    #endregion
+
 
     #region Private Methods
     private void OnTouchStarted()

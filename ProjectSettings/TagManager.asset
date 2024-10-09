@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Star
   - Coin
+  - GameWon
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Star
   - Coin
   - Player
-  - 
+  - GameWon
   - 
   - 
   - 
@@ -43,6 +44,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: GameWon
+    uniqueID: 3339050219
     locked: 0
   - name: Collectable
     uniqueID: 3875975127
