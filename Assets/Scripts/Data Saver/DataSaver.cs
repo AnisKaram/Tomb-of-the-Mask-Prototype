@@ -61,6 +61,44 @@ public class DataSaver : MonoBehaviour
         PlayerData playerData = LoadData();
         return playerData.arrayOfStarsPerLevel;
     }
+
+    /// <summary>
+    /// Saves the PlayerData in a JSON file.
+    /// </summary>
+    /// <param name="coins">Amount of coins to add</param>
+    /// <param name="energy">Amount of energy to assign</param>
+    /// <param name="stars">Amount of stars to add</param>
+    /// <param name="levelIndex">Current level index</param>
+    /// <param name="starsPerLevel">Amount of stars of the current level</param>
+    public void SaveData(int coins = -1, int energy = -1, int stars = -1, int levelIndex = -1, int starsPerLevel = -1)
+    {
+        string path = Application.persistentDataPath + m_jsonFileName;
+
+        // check if no json file found, we initialize player data then save.
+        if (!File.Exists(path)) { InitializePlayerData(); }
+
+        string contents = File.ReadAllText(path);
+        PlayerData playerData = JsonUtility.FromJson<PlayerData>(contents);
+        if (coins >= 0) { playerData.coins = coins; } // add to the total coins.
+        if (stars >= 0) { playerData.stars += stars; } // add to the total stars.
+        if (energy >= 0) // add to the total energy.
+        {
+            playerData.energy = energy;
+            playerData.energy = Mathf.Clamp(playerData.energy, 0, 5); // ..min 0 and max 5
+        }
+        if (levelIndex >= 0 && starsPerLevel >= 0) // assign new amount of stars to the level.
+        {
+            if (starsPerLevel > playerData.arrayOfStarsPerLevel[levelIndex]) // ..only when the new amount of stars is greater than the saved one
+            {
+                playerData.arrayOfStarsPerLevel[levelIndex] = starsPerLevel;
+                playerData.arrayOfStarsPerLevel[levelIndex] = Mathf.Clamp(playerData.arrayOfStarsPerLevel[levelIndex], 0, 3); // ..min 0 and max 3
+            }
+        }
+
+        string json = JsonUtility.ToJson(playerData);
+        File.WriteAllText(path, json);
+        Debug.Log($"Data saved: {json}");
+    }
     #endregion
 
 
@@ -84,44 +122,6 @@ public class DataSaver : MonoBehaviour
         string contents = JsonUtility.ToJson(playerData);
         File.WriteAllText(path, contents);
         Debug.Log($"Data initialized and saved: {contents}");
-    }
-
-    /// <summary>
-    /// Saves the PlayerData in a JSON file.
-    /// </summary>
-    /// <param name="coins">Amount of coins to add</param>
-    /// <param name="energy">Amount of energy to assign</param>
-    /// <param name="stars">Amount of stars to add</param>
-    /// <param name="levelIndex">Current level index</param>
-    /// <param name="starsPerLevel">Amount of stars of the current level</param>
-    private void SaveData(int coins = -1, int energy = -1, int stars = -1, int levelIndex = -1, int starsPerLevel = -1)
-    {
-        string path = Application.persistentDataPath + m_jsonFileName;
-
-        // check if no json file found, we initialize player data then save.
-        if (!File.Exists(path)) { InitializePlayerData(); }
-
-        string contents = File.ReadAllText(path);
-        PlayerData playerData = JsonUtility.FromJson<PlayerData>(contents);
-        if (coins >= 0) { playerData.coins += coins; } // add to the total coins.
-        if (stars >= 0) { playerData.stars += stars; } // add to the total stars.
-        if (energy >= 0) // add to the total energy.
-        {
-            playerData.energy = energy;
-            playerData.energy = Mathf.Clamp(playerData.energy, 0, 5); // ..min 0 and max 5
-        }
-        if (levelIndex >= 0 && starsPerLevel >= 0) // assign new amount of stars to the level.
-        {
-            if (starsPerLevel > playerData.arrayOfStarsPerLevel[levelIndex]) // ..only when the new amount of stars is greater than the saved one
-            {
-                playerData.arrayOfStarsPerLevel[levelIndex] = starsPerLevel;
-                playerData.arrayOfStarsPerLevel[levelIndex] = Mathf.Clamp(playerData.arrayOfStarsPerLevel[levelIndex], 0, 3); // ..min 0 and max 3
-            }
-        }
-
-        string json = JsonUtility.ToJson(playerData);
-        File.WriteAllText(path, json);
-        Debug.Log($"Data saved: {json}");
     }
 
     /// <summary>

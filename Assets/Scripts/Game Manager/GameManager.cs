@@ -22,8 +22,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance => m_instance;
 
-    public StarAmountRecorder starAmountController => m_starAmountRecorder;
-    public CoinAmountRecorder coinAmountController => m_coinAmountRecorder;
+    public StarAmountRecorder starAmountRecorder => m_starAmountRecorder;
+    public CoinAmountRecorder coinAmountRecorder => m_coinAmountRecorder;
 
 
     public delegate void GameStateAction();
@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
         {
             case GameState.GameWon:
                 m_swipeDetectorManager.DisableTouch();
+                DataSaver.instance.SaveData(m_coinAmountRecorder.coinAmount, -1, m_starAmountRecorder.starAmount, 0, m_starAmountRecorder.starAmount);
                 GameWon?.Invoke();
                 break;
             case GameState.GameLost:

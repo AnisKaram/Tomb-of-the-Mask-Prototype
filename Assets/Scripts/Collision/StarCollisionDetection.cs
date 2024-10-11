@@ -9,6 +9,7 @@ public class StarCollisionDetection : MonoBehaviour
             if (collision.TryGetComponent(out StarCollectable starCollectable))
             {
                 starCollectable.Collect(amount: 1);
+                starCollectable.DestroyObject();
             }
         }
     }

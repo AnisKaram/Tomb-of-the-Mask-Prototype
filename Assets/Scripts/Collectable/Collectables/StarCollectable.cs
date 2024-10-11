@@ -6,6 +6,6 @@ public class StarCollectable : Collectable
 {
     public override void Collect(int amount)
     {
-        GameManager.instance.starAmountController.RecordStar(amount);
+        GameManager.instance.starAmountRecorder.RecordStar(amount);
     }
 }

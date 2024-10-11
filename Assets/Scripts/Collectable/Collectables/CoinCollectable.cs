@@ -6,6 +6,6 @@ public class CoinCollectable : Collectable
 {
     public override void Collect(int amount)
     {
-        GameManager.instance.coinAmountController.RecordCoin(amount);
+        GameManager.instance.coinAmountRecorder.RecordCoin(amount);
     }
 }

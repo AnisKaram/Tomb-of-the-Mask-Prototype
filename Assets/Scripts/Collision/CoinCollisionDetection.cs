@@ -9,6 +9,7 @@ public class CoinCollisionDetection : MonoBehaviour
             if (collision.TryGetComponent(out CoinCollectable coinCollectable))
             {
                 coinCollectable.Collect(amount: 1);
+                coinCollectable.DestroyObject();
             }
         }
     }
