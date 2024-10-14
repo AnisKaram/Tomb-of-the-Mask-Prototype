@@ -10,6 +10,7 @@ public class StarCollisionDetection : MonoBehaviour
             {
                 starCollectable.Collect(amount: 1);
                 starCollectable.DestroyObject();
+                starCollectable.ShakeCamera();
             }
         }
     }

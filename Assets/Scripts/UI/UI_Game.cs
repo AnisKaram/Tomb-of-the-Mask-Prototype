@@ -11,7 +11,7 @@ public class UI_Game : MonoBehaviour
 
 
     #region Unity Methods
-    private void Start()
+    private void Awake()
     {
         GameManager.instance.coinAmountRecorder.CoinAmountUpdated += OnCoinAmountUpdated;
     }

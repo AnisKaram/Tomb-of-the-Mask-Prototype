@@ -13,15 +13,23 @@ public class CameraShake : MonoBehaviour
     #endregion
 
 
-    #region Public Methods
-    public void ShakeCamera()
+    #region Unity Methods
+    private void Awake()
     {
-        StartCoroutine(CameraShakeCoroutine());
+        Collectable.CollectableCollided += OnCollectableCollided;
+    }
+    private void OnDestroy()
+    {
+        Collectable.CollectableCollided -= OnCollectableCollided;
     }
     #endregion
 
 
     #region Private Methods
+    private void OnCollectableCollided()
+    {
+        StartCoroutine(CameraShakeCoroutine());
+    }
     private IEnumerator CameraShakeCoroutine()
     {
         float elapsedShakingTime = 0f;
